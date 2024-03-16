@@ -1,0 +1,79 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+struct RegistroTemperatura {
+    char fecha;
+    float temperaturaMañana;
+    float temperaturaTarde;
+    float temperaturaNoche;
+};
+
+// Función para registrar la temperatura de un día
+void registrarTemperatura(vector<RegistroTemperatura>& registros) {
+    RegistroTemperatura registro;
+
+    cout << "Ingrese la fecha (dd/mm/yyyy): ";
+    cin >> registro.fecha;
+
+    cout << "Ingrese la temperatura de la mañana en grados Celsius: ";
+    cin >> registro.temperaturaMañana;
+
+    cout << "Ingrese la temperatura de la tarde en grados Celsius: ";
+    cin >> registro.temperaturaTarde;
+
+    cout << "Ingrese la temperatura de la noche en grados Celsius: ";
+    cin >> registro.temperaturaNoche;
+
+    registros.push_back(registro);
+}
+
+// Función para mostrar los registros de temperatura
+void mostrarRegistros(const vector<RegistroTemperatura>& registros) {
+    cout << "\n--- Registros de Temperatura ---\n";
+    for (const auto& registro : registros) {
+        cout << "Fecha: " << registro.fecha << endl;
+        cout << "Mañana: " << registro.temperaturaMañana << "°C" << endl;
+        cout << "Tarde: " << registro.temperaturaTarde << "°C" << endl;
+        cout << "Noche: " << registro.temperaturaNoche << "°C" << endl;
+        cout << endl;
+    }
+}
+
+// Función para calcular el promedio de temperatura de un día
+float calcularPromedioDia(const RegistroTemperatura& registro) {
+    return (registro.temperaturaMañana + registro.temperaturaTarde + registro.temperaturaNoche) / 3.0;
+}
+
+// Función para calcular el promedio de temperatura de todos los registros
+float calcularPromedioTotal(const vector<RegistroTemperatura>& registros) {
+    float sumaTotal = 0;
+    int cantidadTotal = registros.size() * 3; // Cada registro tiene tres temperaturas
+
+    for (const auto& registro : registros) {
+        sumaTotal += registro.temperaturaMañana + registro.temperaturaTarde + registro.temperaturaNoche;
+    }
+
+    return sumaTotal / cantidadTotal;
+}
+
+int main() {
+    vector<RegistroTemperatura> registros;
+    int n;
+
+    cout << "Ingrese el número de días a registrar: ";
+    cin >> n;
+
+    for (int i = 0; i < n; ++i) {
+        cout << "\nRegistro para el día " << i + 1 << ":\n";
+        registrarTemperatura(registros);
+    }
+
+    mostrarRegistros(registros);
+
+    cout << "Promedio de temperatura del primer día: " << calcularPromedioDia(registros[0]) << "°C" << endl;
+    cout << "Promedio de temperatura de todos los registros: " << calcularPromedioTotal(registros) << "°C" << endl;
+
+    return 0;
+}
